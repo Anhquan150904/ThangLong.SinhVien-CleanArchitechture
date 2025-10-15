@@ -1,0 +1,6 @@
+@ThangLong.WebApi_HostAddress = http://localhost:5116
+
+GET {{ThangLong.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
