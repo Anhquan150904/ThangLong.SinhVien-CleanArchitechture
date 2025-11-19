@@ -1,17 +1,16 @@
 ﻿# Stage 1: Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
+WORKDIR /app
 
-# Sao chép file Webapi.csproj và chạy restore trên file đó
-COPY ThangLong.WebApi/ThangLong.WebApi.csproj ThangLong.WebApi/
-RUN dotnet restore ThangLong.WebApi/ThangLong.WebApi.csproj
+# Copy csproj và restore
+COPY *.csproj ./
+RUN dotnet restore
 
-# Sao chép toàn bộ source code (bao gồm cả các project khác)
-COPY . .
-WORKDIR /src/ThangLong.WebApi 
-RUN dotnet publish -c Release -o /app/out 
+# Copy toàn bộ source code và publish
+COPY . ./
+RUN dotnet publish -c Release -o out
 
-# Stage 2: Runtime (Giữ nguyên)
+# Stage 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/out .
