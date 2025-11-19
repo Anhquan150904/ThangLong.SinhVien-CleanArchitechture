@@ -2,10 +2,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-COPY *.csproj ./
+COPY ThangLong.WebApi/ThangLong.WebApi.csproj ./
 RUN dotnet restore
 
-COPY . ./
+COPY ThangLong.WebApi/ ./
 RUN dotnet publish -c Release -o out
 
 # Runtime stage
