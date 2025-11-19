@@ -1,5 +1,26 @@
 ﻿namespace ThangLong.Application.Models;
 
-// DTO  - Reuest/Response to create/update entity
-public record CreateSinhVienRequest(string Msv, string Ten, int Tuoi);
-public record UpdateSinhVienRequest(string? Ten, int? Tuoi);
+// DTO  - Request/Response to create/update entity
+// DTO để tạo sinh viên
+public record CreateSinhVienRequest(
+    string Msv,
+    string Ten,
+    string Khoa,
+    string Nganh,
+    string KhoaHoc,
+    string Lop,
+    DateTime NgaySinh,
+    string Email,
+    string? Sdt
+);
+// DTO để tạo sinh viên
+public record UpdateSinhVienRequest(
+    string? Ten,
+    string? Khoa,
+    string? Nganh,
+    string? KhoaHoc,
+    string? Lop,
+    DateTime? NgaySinh,  // nullable
+    string? Email,
+    string? Sdt
+);
