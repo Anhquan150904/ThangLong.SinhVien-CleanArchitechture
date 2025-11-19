@@ -1,35 +1,49 @@
 ﻿using ThangLong.Application.Services;
 using ThangLong.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add CORS
-builder.Services.AddCors(options =>
+// Lấy connection string từ Environment Variable
+var connectionString = Environment.GetEnvironmentVariable("SQLSERVER_CONNECTION");
+if (string.IsNullOrEmpty(connectionString))
 {
-    options.AddPolicy("AllowReactApp",
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:5173")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
-});
+    throw new Exception("Environment variable SQLSERVER_CONNECTION is not set!");
+}
 
+// Add Infrastructure / DbContext với connection string
 builder.Services.AddInfrastructure(builder.Configuration);
+
+// Add service
 builder.Services.AddScoped<SinhVienService>();
 
+// Add Controllers
 builder.Services.AddControllers();
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// CORS: cho phép mọi frontend
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
+// Swagger UI
 app.UseSwagger();
 app.UseSwaggerUI();
 
 // Enable CORS
-app.UseCors("AllowReactApp");
+app.UseCors("AllowAll");
 
 app.MapControllers();
-app.Run();
 
+app.Run();
