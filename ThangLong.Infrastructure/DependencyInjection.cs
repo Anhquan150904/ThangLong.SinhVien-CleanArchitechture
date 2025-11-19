@@ -11,7 +11,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
-        var cs = config.GetConnectionString("Default");
+        var cs = config.GetConnectionString("DefaultConnection");
         services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(cs));
 
         services.AddScoped<ISinhVienRepository, SinhVienRepository>();

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Lấy connection string từ Environment Variable
-var connectionString = Environment.GetEnvironmentVariable("SQLSERVER_CONNECTION");
+var connectionString = Environment.GetEnvironmentVariable("SQLSERVER_CONNECTION") ?? "Server=tcp:thanglongserver.database.windows.net,1433;Initial Catalog=ThangLong;Persist Security Info=False;User ID=adminuser;Password=Vuquan15@;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 if (string.IsNullOrEmpty(connectionString))
 {
     throw new Exception("Environment variable SQLSERVER_CONNECTION is not set!");
