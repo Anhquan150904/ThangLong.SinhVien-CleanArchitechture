@@ -5,15 +5,18 @@ WORKDIR /src
 # 1. Sao chép các file cần thiết (Chạy từ Solution Root)
 # Copy Solution file
 COPY ThangLong.SinhVien.sln .
-# Copy tất cả các file .csproj
-COPY */*.csproj ./
+# Copy tất cả các file .csproj (Loại bỏ vì chúng ta sẽ copy toàn bộ source ở bước sau)
+# COPY */*.csproj ./  <-- Đã xóa
 
 # 2. Khôi phục các gói NuGet (NuGet Restore)
+# SAO CHÉP TOÀN BỘ MÃ NGUỒN ĐỂ GIỮ NGUYÊN CẤU TRÚC THƯ MỤC
+COPY . .
+
 # Chạy restore trên Solution file để đảm bảo tất cả các tham chiếu được giải quyết
+# Lệnh này bây giờ sẽ hoạt động vì tất cả các thư mục project đã có trong /src
 RUN dotnet restore ThangLong.SinhVien.sln
 
-# 3. Sao chép toàn bộ mã nguồn còn lại
-COPY . .
+# 3. Sao chép toàn bộ mã nguồn còn lại (Đã thực hiện ở bước 2)
 
 # 4. Xuất bản (Publish)
 # Chuyển đổi thư mục làm việc sang thư mục của project API
